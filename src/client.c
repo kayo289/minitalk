@@ -6,7 +6,7 @@
 /*   By: kkikuchi <kkikuchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 20:30:53 by kkikuchi          #+#    #+#             */
-/*   Updated: 2021/09/13 20:30:55 by kkikuchi         ###   ########.fr       */
+/*   Updated: 2021/09/13 21:28:41 by kkikuchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char *argv[])
 	write(1, argv[2], ft_strlen(argv[2]));
 	write(1, "\n", 1);
 	pid = ft_atoi(argv[1]);
-	if (!pid)
+	if (!pid || kill(pid, 0) == -1)
 		error("Pid Error\n");
 	ft_client(pid, argv[2]);
 	return (0);
