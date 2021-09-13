@@ -7,6 +7,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "../src/libft/libft.h"
-# define DEL 127
+# define END 127
 
 #endif
