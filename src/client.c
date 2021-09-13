@@ -36,11 +36,16 @@ void	ft_client(int pid, char *str)
 
 int		main(int argc, char *argv[])
 {
+	int pid;
+
 	if (argc != 3)
 		return (0);
 	write(1, "\nMassage : ", 11);
 	write(1, argv[2], ft_strlen(argv[2]));
 	write(1, "\n", 1);
-	ft_client(ft_atoi(argv[1]), argv[2]);
+	pid = ft_atoi(argv[1]);
+	if (!pid)
+		error("Pid Error\n");
+	ft_client(pid, argv[2]);
 	return (0);
 }

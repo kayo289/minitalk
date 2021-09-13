@@ -9,4 +9,6 @@
 # include "../src/libft/libft.h"
 # define END 127
 
+void error(char *msg);
+
 #endif

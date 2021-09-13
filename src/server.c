@@ -48,20 +48,11 @@ int		display_pid()
 int		main(void)
 {
 	if (!(display_pid()))
-	{
-		write(1, "PID error", 9);
-		exit(1);
-	}
+		error("Pid Error\n");
 	if (signal(SIGUSR1, handler) == SIG_ERR)
-	{
-		write(1, "Sigal Error", 11);
-		exit(1);
-	}
+		error("Signal Error\n");
 	if (signal(SIGUSR2, handler) == SIG_ERR)
-	{
-		write(1, "Sigal Error", 11);
-		exit(1);
-	}
+		error("Signal Error\n");
 	while (1)
 	{
 	}

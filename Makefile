@@ -1,8 +1,8 @@
 NAME_SERVER = server
 NAME_CLIENT = client
 
-SRCS_SERVER = ./src/server.c
-SRCS_CLIENT = ./src/client.c
+SRCS_SERVER = ./src/server.c ./src/error.c
+SRCS_CLIENT = ./src/client.c ./src/error.c
 
 OBJS_SERVER = $(SRCS_SERVER:%.c=%.o)
 OBJS_CLIENT = $(SRCS_CLIENT:%.c=%.o)
