@@ -6,7 +6,7 @@
 /*   By: kkikuchi <kkikuchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 20:31:03 by kkikuchi          #+#    #+#             */
-/*   Updated: 2021/09/13 20:31:04 by kkikuchi         ###   ########.fr       */
+/*   Updated: 2021/09/13 22:41:21 by kkikuchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	reset(char *b, size_t len)
 
 	i = 0;
 	while (i < len)
-		b[i++] = 0;
+		b[i++] &= 0;
 }
 
 void	handler(int sig)
 {
-	static char	s[101];
+	static char	s[100];
 	static int	i;
 	static int	c;
 
@@ -32,14 +32,14 @@ void	handler(int sig)
 		c = 7;
 		i++;
 	}
+	s[i] &= ~0;
 	if (sig == SIGUSR1)
 		s[i] |= (1 << c);
 	else if (sig == SIGUSR2)
 		s[i] &= ~(1 << c);
-	if (s[i] == END || i == 100)
+	if (s[i] == END || i == 99)
 	{
-		s[i] = '\0';
-		write(1, s, i + 1);
+		write(1, s, i);
 		reset(s, 100);
 		i = 0;
 	}
