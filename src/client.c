@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkikuchi <kkikuchi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/13 20:30:53 by kkikuchi          #+#    #+#             */
+/*   Updated: 2021/09/13 20:30:55 by kkikuchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minitalk.h"
 
 void	post(int pid, int idx)
@@ -30,11 +42,11 @@ void	ft_client(int pid, char *str)
 
 	i = 0;
 	while (str[i])
-		sent_str(pid, (int)str[i++],0);
+		sent_str(pid, (int)str[i++], 0);
 	sent_str(pid, 127, 0);
 }
 
-int		main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	int pid;
 

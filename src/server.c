@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkikuchi <kkikuchi@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/13 20:31:03 by kkikuchi          #+#    #+#             */
+/*   Updated: 2021/09/13 20:31:04 by kkikuchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minitalk.h"
 
 void	reset(char *b, size_t len)
@@ -33,11 +45,12 @@ void	handler(int sig)
 	}
 }
 
-int		display_pid()
+int	display_pid(void)
 {
-	char *pid;
+	char	*pid;
 
-	if (!(pid = ft_itoa(getpid())))
+	pid = ft_itoa(getpid());
+	if (!pid)
 		return (0);
 	write(1, "PID=", 4);
 	write(1, pid, ft_strlen(pid));
@@ -45,7 +58,7 @@ int		display_pid()
 	return (1);
 }
 
-int		main(void)
+int	main(void)
 {
 	if (!(display_pid()))
 		error("Pid Error\n");
