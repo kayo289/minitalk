@@ -6,7 +6,7 @@
 /*   By: kkikuchi <kkikuchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 20:31:03 by kkikuchi          #+#    #+#             */
-/*   Updated: 2021/09/13 22:41:21 by kkikuchi         ###   ########.fr       */
+/*   Updated: 2021/09/14 17:00:33 by kkikuchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,45 +23,48 @@ void	reset(char *b, size_t len)
 
 void	handler(int sig)
 {
-	static char	s[100];
+	static char	s[101];
 	static int	i;
 	static int	c;
 
-	if (--c == -1)
-	{
-		c = 7;
-		i++;
-	}
 	s[i] &= ~0;
-	if (sig == SIGUSR1)
-		s[i] |= (1 << c);
-	else if (sig == SIGUSR2)
-		s[i] &= ~(1 << c);
-	if (s[i] == END || i == 99)
+	if (c < 8)
 	{
+		if (sig == SIGUSR1)
+			s[i] |= (1 << c);
+		else if (sig == SIGUSR2)
+			s[i] &= ~(1 << c);
+		c++;
+	}
+	if (s[i] == END || i == 100)
+	{
+		s[i] = '\0';
 		write(1, s, i);
 		reset(s, 100);
 		i = 0;
 	}
+	if (c == 8)
+	{
+		c = 0;
+		i++;
+	}
 }
 
-int	display_pid(void)
+void	display_pid(void)
 {
 	char	*pid;
 
 	pid = ft_itoa(getpid());
 	if (!pid)
-		return (0);
+		error("Pid Error\n");
 	write(1, "PID=", 4);
 	write(1, pid, ft_strlen(pid));
 	write(1, "\n", 1);
-	return (1);
 }
 
 int	main(void)
 {
-	if (!(display_pid()))
-		error("Pid Error\n");
+	display_pid();
 	if (signal(SIGUSR1, handler) == SIG_ERR)
 		error("Signal Error\n");
 	if (signal(SIGUSR2, handler) == SIG_ERR)

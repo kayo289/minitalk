@@ -6,7 +6,7 @@
 /*   By: kkikuchi <kkikuchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 20:30:53 by kkikuchi          #+#    #+#             */
-/*   Updated: 2021/09/13 21:28:41 by kkikuchi         ###   ########.fr       */
+/*   Updated: 2021/09/14 16:31:23 by kkikuchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,25 @@ void	post(int pid, int idx)
 	usleep(100);
 }
 
-void	sent_str(int pid, int c, int n)
+void	sent_str(int pid, char c)
 {
-	if (!c)
+	int	i;
+	int	bit;
+
+	i = 0;
+	while (i < 8)
 	{
-		while (n < 8)
-		{
-			post(pid, 0);
-			n++;
-		}
-		return ;
+		usleep(55);
+		bit = (c >> i) & 1;
+		if (bit == 1)
+			bit = kill(pid, SIGUSR1);
+		else
+			bit = kill(pid, SIGUSR2);
+		if (bit == -1)
+			exit(EXIT_FAILURE);
+		i++;
 	}
-	sent_str(pid, c / 2, ++n);
-	post(pid, c % 2);
+	return ;
 }
 
 void	ft_client(int pid, char *str)
@@ -41,23 +47,17 @@ void	ft_client(int pid, char *str)
 	int		i;
 
 	i = 0;
+	if (!pid || kill(pid, 0) == -1)
+		error("Pid Error\n");
 	while (str[i])
-		sent_str(pid, (int)str[i++], 0);
-	sent_str(pid, 127, 0);
+		sent_str(pid, (int)str[i++]);
+	sent_str(pid, 127);
 }
 
 int	main(int argc, char *argv[])
 {
-	int pid;
-
 	if (argc != 3)
 		return (0);
-	write(1, "\nMassage : ", 11);
-	write(1, argv[2], ft_strlen(argv[2]));
-	write(1, "\n", 1);
-	pid = ft_atoi(argv[1]);
-	if (!pid || kill(pid, 0) == -1)
-		error("Pid Error\n");
-	ft_client(pid, argv[2]);
+	ft_client(ft_atoi(argv[1]), argv[2]);
 	return (0);
 }
